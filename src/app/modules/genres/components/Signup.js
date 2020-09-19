@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 
-const SignupButton = () => {
+const Signup = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
@@ -8,4 +8,4 @@ const SignupButton = () => {
   );
 };
 
-export default SignupButton;
+export default Signup;

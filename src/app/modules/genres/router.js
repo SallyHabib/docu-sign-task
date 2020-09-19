@@ -5,14 +5,13 @@ import {
   Route
 } from "react-router-dom";
 import MusicGenres from './components/MusicGenres';
-import SignupButton from './components/signup-button';
+import Signup from './components/Signup';
 
 const Genreroutes = () => {
-  console.log("kkk")
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={SignupButton} />
+        <Route exact path="/" component={Signup} />
 
         <Route path="/genre" component={MusicGenres} />
 

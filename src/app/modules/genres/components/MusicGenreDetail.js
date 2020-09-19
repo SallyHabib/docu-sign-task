@@ -12,20 +12,27 @@ class MusicGenreDetail extends Component {
     }
   }
   render() {
-    let { selectedGenre } = this.props;
     return (
       <Modal
         onClose={() => this.setState({ open: false })}
         onOpen={() => this.setState({ open: true })}
         open={this.state.open}
       >
-        <Modal.Header>Select a Photo</Modal.Header>
-        <Modal.Content image>
-          <Image size='medium' src={selectedGenre.picture_xl} wrapped />
-          <Modal.Description>
-            <Header>{selectedGenre.name}</Header>
-            <p>This is music Genre</p>
-          </Modal.Description>
+        <Modal.Header>Selected Genre Artists</Modal.Header>
+        <Modal.Content>
+          <Card.Group itemsPerRow={3} centered>
+            {this.props.selectedGenre.map(item => {
+              return (
+                <Card
+                  image={item.picture_medium}
+                  header={item.name}
+                  meta={item.type}
+                  key={item.id}
+                />
+              )
+            })
+            }
+          </Card.Group>
         </Modal.Content>
         <Modal.Actions>
 

@@ -27,8 +27,8 @@ export function* getMusicGenres(action) {
 
 export function* getMusicGenreDetail(action) {
 	let genreDetail = []
-	yield axios.get(`${proxyurl}${baseUrl}/${action.payload}`).then(function (response) {
-		genreDetail = response.data
+	yield axios.get(`${proxyurl}${baseUrl}/${action.payload}/artists`).then(function (response) {
+		genreDetail = response.data.data
 	}
 	).catch(function (error) {
 		return error
