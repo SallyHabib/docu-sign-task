@@ -7,7 +7,7 @@ import {
   getMusicGenreDetail
 } from '../state/actions'
 
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../../auth/components/LogoutButton';
 class MusicGenres extends Component {
   constructor() {
     super();

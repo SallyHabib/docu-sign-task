@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import MusicGenres from './components/MusicGenres';
-import Signup from './components/Signup';
+import Signup from '../auth/components/Signup';
 
 const Genreroutes = () => {
   return (
