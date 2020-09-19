@@ -28,8 +28,6 @@ export function* getMusicGenres(action) {
 export function* getMusicGenreDetail(action) {
 	let genreDetail = []
 	yield axios.get(`${proxyurl}${baseUrl}/${action.payload}`).then(function (response) {
-
-		console.log(response.data)
 		genreDetail = response.data
 	}
 	).catch(function (error) {

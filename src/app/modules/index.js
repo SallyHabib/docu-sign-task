@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { fork, all } from 'redux-saga/effects';
 
-import { genres } from './genres/ui/reducers';
-import * as uiSagas from './genres/ui/sagas';
+import { genres } from './genres/state/reducers';
+import * as uiSagas from './genres/state/sagas';
 
 
 export const rootReducer = combineReducers({
