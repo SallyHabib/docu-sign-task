@@ -31,7 +31,7 @@ class MusicGenres extends Component {
     if (selectedGenreArtists && selectedGenreArtists.length > 0) {
       return (
         <Modal
-          onClose={() => this.setState({ open: false }, () => { this.props.history.push(`/genre`) })}
+          onClose={() => this.setState({ open: false }, () => { this.props.history.goBack() })}
           onOpen={() => this.setState({ open: true })}
           open={this.state.open}
         >
@@ -63,7 +63,9 @@ class MusicGenres extends Component {
               content="ok"
               labelPosition='right'
               icon='checkmark'
-              onClick={() => this.setState({ open: false }, () => { this.props.history.push(`/genre`) })}
+              onClick={() =>
+                this.setState({ open: false },
+                  () => { this.props.history.push(`/genre`) })}
               positive
             />
           </Modal.Actions>
@@ -71,11 +73,6 @@ class MusicGenres extends Component {
       )
     }
   }
-
-  // handleOnClick = (id) => {
-  //   this.props.getMusicGenreDetail(id)
-  //   this.props.history.push(`/genre/${id}`);
-  // }
 
   render() {
     const { loading, genres } = this.props;
@@ -105,7 +102,13 @@ class MusicGenres extends Component {
                         meta={item.type}
                         key={item.id}
                         // onClick={() => this.handleOnClick(item.id)}
-                        onClick={() => { this.setState({ open: true }, () => { this.props.history.push(`/genre/${item.id}`); this.props.getMusicGenreDetail(item.id) }) }}
+                        onClick={() => {
+                          this.setState({ open: true },
+                            () => {
+                              this.props.history.push(`/genre/${item.id}`);
+                              this.props.getMusicGenreDetail(item.id)
+                            })
+                        }}
 
                       />
                     )
