@@ -12,9 +12,8 @@ const Genreroutes = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Signup} />
-
         <Route path="/genre" component={MusicGenres} />
-
+        <Route exact path="/genre/:id" component={MusicGenres} />
       </Switch>
 
     </Router>

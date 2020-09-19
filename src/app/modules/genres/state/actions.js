@@ -4,7 +4,7 @@ import {
   REQUEST_MUSIC_DATA
 } from "./constants";
 
-export const requestMusicGenres = () => {
+export const getMusicGenres = () => {
   return {
     type: REQUEST_MUSIC_DATA,
   };

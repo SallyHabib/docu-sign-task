@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Card, Modal, Button, Divider, Header } from 'semantic-ui-react'
+import { Card, Modal, Button, Divider, Header, Dimmer, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {
-  requestMusicGenres,
+  getMusicGenres,
   getMusicGenreDetail
 } from '../state/actions'
 
@@ -17,7 +17,7 @@ class MusicGenres extends Component {
     }
   }
   componentDidMount() {
-    this.props.requestMusicGenres()
+    this.props.getMusicGenres()
   }
 
   setSelectedItem = (task) => {
@@ -27,36 +27,43 @@ class MusicGenres extends Component {
   }
 
   renderModal() {
-    if (this.props.selectedGenre && this.props.selectedGenre.length > 0) {
+    const { selectedGenreArtists, loadingDetails } = this.props;
+    if (selectedGenreArtists && selectedGenreArtists.length > 0) {
       return (
         <Modal
-          onClose={() => this.setState({ open: false })}
+          onClose={() => this.setState({ open: false }, () => { this.props.history.push(`/genre`) })}
           onOpen={() => this.setState({ open: true })}
           open={this.state.open}
         >
           <Modal.Header>Selected Genre Artists</Modal.Header>
-          <Modal.Content>
-            <Card.Group itemsPerRow={3} centered>
-              {this.props.selectedGenre.map(item => {
-                return (
-                  <Card
-                    image={item.picture_medium}
-                    header={item.name}
-                    meta={item.type}
-                    key={item.id}
-                  />
-                )
-              })
-              }
-            </Card.Group>
-          </Modal.Content>
+          {loadingDetails ?
+            <Dimmer active>
+              <Loader content='Loading' />
+            </Dimmer>
+            :
+            <Modal.Content>
+              <Card.Group itemsPerRow={3} centered>
+                {selectedGenreArtists.map(item => {
+                  return (
+                    <Card
+                      image={item.picture_medium}
+                      header={item.name}
+                      meta={item.type}
+                      key={item.id}
+                    />
+                  )
+                })
+                }
+              </Card.Group>
+            </Modal.Content>
+          }
           <Modal.Actions>
 
             <Button
               content="ok"
               labelPosition='right'
               icon='checkmark'
-              onClick={() => this.setState({ open: false })}
+              onClick={() => this.setState({ open: false }, () => { this.props.history.push(`/genre`) })}
               positive
             />
           </Modal.Actions>
@@ -65,48 +72,68 @@ class MusicGenres extends Component {
     }
   }
 
-  render() {
-    return (
-      <div >
-        <div style={{ textAlign: 'right', width: '100%' }}>
-          <LogoutButton />
-          <Divider />
-        </div>
-        <div style={{ textAlign: 'center', width: '100%', marginBottom:20 }}>
-        <Header as='h2'>Music Genres</Header>
-        </div>
-        <div>
-          <Card.Group centered>
-            {this.props.genres.map(item => {
-              return (
-                <Card
-                  image={item.picture_medium}
-                  header={item.name}
-                  meta={item.type}
-                  key={item.id}
-                  onClick={() => this.setState({ open: true }, () => { this.props.getMusicGenreDetail(item.id) })}
+  // handleOnClick = (id) => {
+  //   this.props.getMusicGenreDetail(id)
+  //   this.props.history.push(`/genre/${id}`);
+  // }
 
-                />
-              )
-            })
-            }
-          </Card.Group>
-          {this.renderModal()}
-        </div>
+  render() {
+    const { loading, genres } = this.props;
+    return (
+      <div>
+        {
+          loading ?
+            <Dimmer active>
+              <Loader content='Loading' />
+            </Dimmer>
+            :
+            <div >
+              <div style={{ textAlign: 'right', width: '100%' }}>
+                <LogoutButton />
+                <Divider />
+              </div>
+              <div style={{ textAlign: 'center', width: '100%', marginBottom: 20 }}>
+                <Header as='h2'>Music Genres</Header>
+              </div>
+              <div>
+                <Card.Group centered>
+                  {genres.map(item => {
+                    return (
+                      <Card
+                        image={item.picture_medium}
+                        header={item.name}
+                        meta={item.type}
+                        key={item.id}
+                        // onClick={() => this.handleOnClick(item.id)}
+                        onClick={() => { this.setState({ open: true }, () => { this.props.history.push(`/genre/${item.id}`); this.props.getMusicGenreDetail(item.id) }) }}
+
+                      />
+                    )
+                  })
+                  }
+                </Card.Group>
+                {this.renderModal()}
+              </div>
+            </div>
+
+        }
       </div>
     )
   }
+
 }
+
 function mapStateToProps({ genres }) {
   return {
     genres: genres.genres,
-    selectedGenre: genres.selectedGenre
+    loading: genres.loading,
+    loadingDetails: genres.loadingDetails,
+    selectedGenreArtists: genres.selectedGenreArtists
   }
 }
 MusicGenres.propTypes = {
-  genres: PropTypes.array.isRequired,
-  selectedGenre: PropTypes.array.isRequired
+  genres: PropTypes.array.isRequired
 }
 
 
-export default connect(mapStateToProps, { requestMusicGenres, getMusicGenreDetail })(MusicGenres)
+export default connect(mapStateToProps, { getMusicGenres, getMusicGenreDetail })(MusicGenres)
