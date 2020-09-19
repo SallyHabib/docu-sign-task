@@ -101,7 +101,6 @@ class MusicGenres extends Component {
                         header={item.name}
                         meta={item.type}
                         key={item.id}
-                        // onClick={() => this.handleOnClick(item.id)}
                         onClick={() => {
                           this.setState({ open: true },
                             () => {
